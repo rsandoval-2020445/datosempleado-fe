@@ -22,18 +22,20 @@ export const createColaborador = async (colaborador) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        
-        body: JSON.stringify(colaborador),
+            body: JSON.stringify(colaborador),
         })
 
-        if (!response.ok) throw new Error('Error al crear colaborador')
-            return await response.json()
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error al crear colaborador');
+        }
+        return await response.json();
 
     } catch (error) {
-        console.error(error)
-        throw error
+        console.error(error);
+        throw error;
     }
-}
+};
 
 export const updateColaborador = async (id, colaborador) => {
     try {

@@ -63,7 +63,7 @@ const GestionDeEmpleados = () => {
     setIdEditar(null);
   };
 
-const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "nombre" || name === "apellido") {
@@ -103,8 +103,17 @@ const handleChange = (e) => {
 
       handleClose();
       cargarDatos();
+
     } catch (error) {
-      Swal.fire("Error", "No se pudo guardar el colaborador", "error");
+      Swal.fire({
+        title: "Error", 
+        text: error.message || "No se pudo guardar el colaborador",
+        icon: "error",
+        didOpen: () => {
+             const swalContainer = Swal.getContainer();
+             swalContainer.style.zIndex = 2000;
+        }
+      });
     }
   };
 
@@ -128,6 +137,9 @@ const cargarDatos = async () => {
     }
   };
 
+  useEffect(() => {
+    cargarDatos();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
